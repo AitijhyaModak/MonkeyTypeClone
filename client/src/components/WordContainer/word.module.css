@@ -1,0 +1,38 @@
+.current {
+  text-decoration: underline;
+  text-decoration-color: wheat;
+}
+
+.current:focus {
+  outline: none;
+}
+
+.correct {
+  color: rgb(155, 214, 120);
+  font-weight: 500;
+}
+
+.wrong {
+  color: rgb(233, 92, 92);
+  font-weight: 500;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+.caret {
+  color: yellow;
+  animation-name: blink;
+  animation-duration: 0.6s;
+  animation-iteration-count: infinite;
+}
+
+.active {
+  text-decoration: underline;
+}
