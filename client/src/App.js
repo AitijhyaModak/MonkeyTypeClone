@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 function helper(words) {
   const shuffled = words.sort(() => 0.5 - Math.random());
-  const wordsArray = shuffled.slice(0, 100);
+  const wordsArray = shuffled.slice(0, 150);
   return wordsArray;
 }
 
