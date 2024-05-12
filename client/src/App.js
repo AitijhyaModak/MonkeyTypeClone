@@ -1,13 +1,13 @@
 import Nav from "./components/Navbar/Nav";
 import { words } from "./words/wordlist";
 import WordContainer from "./components/WordContainer/WordContainer";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setWordsArray } from "./state/slice";
 import { useEffect } from "react";
 
 function helper(words) {
   const shuffled = words.sort(() => 0.5 - Math.random());
-  const wordsArray = shuffled.slice(0, 30);
+  const wordsArray = shuffled.slice(0, 100);
   return wordsArray;
 }
 
