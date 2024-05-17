@@ -6,6 +6,7 @@ import {
   setCorrectTypedIndex,
 } from "../../state/slice";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function spreadWord(wordsArray, correctIndex, locRef) {
   let arr = [];
@@ -19,6 +20,9 @@ function spreadWord(wordsArray, correctIndex, locRef) {
 }
 
 export default function WordContainer() {
+  const navigate = useNavigate();
+  const [timeLeft, setTimeLeft] = useState(3);
+  const [testStarted, setTestStarted] = useState(false);
   const [firstDiffOfHeight, setFirstDiffOfHeight] = useState(-1.0);
   const [secondDiffOfHeight, setSecondDiffOfHeight] = useState(-1.0);
   const wordContainerRef = useRef();
@@ -35,21 +39,25 @@ export default function WordContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!testStarted) return;
+    if (timeLeft <= 0) navigate("/results");
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [timeLeft, testStarted]);
+
+  useEffect(() => {
     if (!typed.length) {
       dispatch(setCorrectTypedIndex(-1));
       return;
     }
-
+    setTestStarted(true);
     setIsWrong(typed[typed.length - 1] !== activeWord[typed.length - 1]);
 
     if (isWrong) {
       dispatch(setWrongIndex(typed.length - 1));
       return;
-      // } else if (
-      //   typed.length > activeWord.length &&
-      //   typed[typed.length - 1] !== " "
-      // )
-      // return;
     } else if (
       typed.length === activeWord.length + 1 &&
       typed[typed.length - 1] === " "
@@ -71,21 +79,16 @@ export default function WordContainer() {
       if (firstDiffOfHeight === -1.0)
         setFirstDiffOfHeight(enterSymbolHeight - containerHeight);
       if (
-        enterSymbolHeight - containerHeight != firstDiffOfHeight &&
+        enterSymbolHeight - containerHeight !== firstDiffOfHeight &&
         firstDiffOfHeight !== -1.0 &&
         secondDiffOfHeight === -1.0
       )
         setSecondDiffOfHeight(enterSymbolHeight - containerHeight);
 
-      console.log("first ", firstDiffOfHeight);
-      console.log("second", secondDiffOfHeight);
-      console.log(enterSymbolHeight - containerHeight);
-
       if (
         secondDiffOfHeight !== -1.0 &&
         enterSymbolHeight - containerHeight > 0.1 + secondDiffOfHeight
       ) {
-        console.log("now scrolling");
         wordContainerRef.current.scrollTop +=
           enterSymbolHeight - containerHeight - firstDiffOfHeight;
       }
@@ -106,24 +109,27 @@ export default function WordContainer() {
   }
 
   return (
-    <div
-      className="w-[73%] flex mt-36  text-white text-2xl  mx-auto h-[8rem]"
-      onClick={makeTextAreaActive}
-    >
-      <textarea
-        className="h-[0px] w-0"
-        value={typed}
-        onChange={onTextAreaChange}
-        autoFocus
-        ref={textAreaRef}
-      ></textarea>{" "}
+    <div className=" w-[73%] mx-auto mt-36 h-fit">
+      <span className="text-yellow-400 text-3xl">{timeLeft}</span>
       <div
-        className="flex gap-3 justify-between flex-wrap overflow-hidden h-[8rem] "
-        ref={wordContainerRef}
+        className="flex  text-white text-2xl h-[8rem] mt-2"
+        onClick={makeTextAreaActive}
       >
-        {spreadWord(testData.wordsArray, correctIndex, locRef).map(
-          (item) => item
-        )}
+        <textarea
+          className="h-[0px] w-0"
+          value={typed}
+          onChange={onTextAreaChange}
+          autoFocus
+          ref={textAreaRef}
+        ></textarea>
+        <div
+          className="flex gap-3 justify-between flex-wrap overflow-hidden h-[8rem] "
+          ref={wordContainerRef}
+        >
+          {spreadWord(testData.wordsArray, correctIndex, locRef).map(
+            (item) => item
+          )}
+        </div>
       </div>
     </div>
   );
