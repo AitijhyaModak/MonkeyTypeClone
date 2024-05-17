@@ -1,7 +1,7 @@
 import styles from "./word.module.css";
 import { useSelector } from "react-redux";
 
-export default function Word({ index, correct, locRef }) {
+export default function Word({ index, correct, locRef, renderDash }) {
   const word = useSelector((state) => state.testReducer.wordsArray[index]);
   const wrongIndex = useSelector((state) => state.testReducer.wrongTypedIndex);
   const correctIndex = useSelector(
@@ -39,6 +39,9 @@ export default function Word({ index, correct, locRef }) {
           {i}
         </span>
       ))}
+      {renderDash && index === activeIndex && (
+        <span className="text-red-700 decoration-red-500 text-xl">☐</span>
+      )}
     </div>
   );
 }

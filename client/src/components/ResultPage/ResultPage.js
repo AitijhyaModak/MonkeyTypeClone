@@ -1,13 +1,10 @@
-import Nav from "../Navbar/Nav";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetState, resetStateButNotWords } from "../../state/slice";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 import { useRef } from "react";
 
-export default function ResultPage() {
+export default function ResultPage({ setResultPage, setTypePage }) {
   const screenshotRef = useRef(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const testData = useSelector((state) => state.testReducer);
   const [image, takeScreenshot] = useScreenshot({
@@ -28,17 +25,19 @@ export default function ResultPage() {
 
   function startNewTest() {
     dispatch(resetState());
-    navigate("/", { replace: true });
+    setResultPage(false);
+    setTypePage(true);
   }
 
   function repeatSameTest() {
     dispatch(resetStateButNotWords());
-    navigate("/", { replace: true });
+    setResultPage(false);
+    setTypePage(true);
   }
 
   return (
-    <div className="min-h-screen bg-slate-800 p-5">
-      <Nav></Nav>
+    // <div className="min-h-screen bg-slate-800 p-5 ">
+    <div>
       <div
         className=" w-[90%] mx-auto mt-20 p-20 flex justify-between items-center bg-slate-800"
         ref={screenshotRef}
@@ -46,7 +45,7 @@ export default function ResultPage() {
         <div className="flex flex-col  items-start">
           <span className="text-3xl text-green-200">wpm</span>
           <span className="text-7xl text-green-300">
-            {testData.wordsTyped * 2}
+            {Math.floor((testData.wordsTyped / testData.time) * 60)}
           </span>
         </div>
 
@@ -75,25 +74,42 @@ export default function ResultPage() {
       </div>
 
       <div className="w-[90%] flex  justify-center mx-auto items-center gap-40 mt-10">
-        <span
-          className="text-white hover:text-green-300 text-2xl cursor-pointer"
-          onClick={startNewTest}
-        >
-          ➤
-        </span>
-        <span
-          className="text-white hover:text-green-300 text-3xl cursor-pointer mt-[-3px]"
-          onClick={repeatSameTest}
-        >
-          ⟳
-        </span>
+        <div className="flex flex-col items-center gap-6">
+          <span
+            className="text-white hover:text-green-300 text-2xl cursor-pointer transition-all ease-linear  peer"
+            onClick={startNewTest}
+          >
+            ➤
+          </span>
 
-        <span
-          className="text-white hover:text-green-300 text-2xl cursor-pointer"
-          onClick={takeSSandDownload}
-        >
-          ⌧
-        </span>
+          <span className="text-xl  bg-black text-white translate-y-[-7px] peer-hover:translate-y-0 peer-hover:opacity-60 w-fit p-2 opacity-0 transition-all ease-linear">
+            Start new test
+          </span>
+        </div>
+
+        <div className="flex flex-col items-center gap-6">
+          <span
+            className="text-white hover:text-green-300 text-3xl cursor-pointer mt-[-3px] transition-all ease-linear peer"
+            onClick={repeatSameTest}
+          >
+            ⟳
+          </span>
+          <span className="text-xl  bg-black text-white  translate-y-[-7px] peer-hover:opacity-60 peer-hover:translate-y-0 w-fit p-2 opacity-0 transition-all ease-linear">
+            Repeat test
+          </span>
+        </div>
+
+        <div className="flex flex-col items-center gap-6">
+          <span
+            className="text-white hover:text-green-300 text-2xl cursor-pointer ease-linear transition-all peer"
+            onClick={takeSSandDownload}
+          >
+            ⌧
+          </span>
+          <span className="text-xl  bg-black text-white translate-y-[-7px] peer-hover:translate-y-0 peer-hover:opacity-60 w-fit p-2 opacity-0 transition-all ease-linear">
+            Take a screenshot
+          </span>
+        </div>
       </div>
     </div>
   );
