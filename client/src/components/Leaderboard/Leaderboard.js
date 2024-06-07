@@ -1,0 +1,75 @@
+export default function Leaderboard() {
+  return (
+    <div className=" w-[90%] mx-auto mt-5 h-fit">
+      <h1 className="text-4xl  text-teal-400">All Time Top-10 Leaderboard</h1>
+      <div className="mt-5">
+        <ul className=" ">
+          <Heading></Heading>
+          {fakeData.map((item) => (
+            <LeaderList data={item}></LeaderList>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function LeaderList({ data }) {
+  return (
+    <li className="even:bg-slate-900 mt-2 even:py-3 even:rounded-2xl odd:py-0 pl-4">
+      <div className="flex w-full justify-between">
+        <div className="flex gap-10">
+          <div className="p-2 w-10 text-green-200 ">
+            {data.number === 1 ? "👑" : data.number}
+          </div>
+          <div className="p-2 w-56  text-yellow-400">{data.username}</div>
+        </div>
+
+        <div className="p-2 w-16  text-red-400">{data.wpm}</div>
+      </div>
+    </li>
+  );
+}
+
+function Heading() {
+  return (
+    <li className=" mt-16 pl-4">
+      <div className="flex w-full justify-between">
+        <div className="flex gap-10">
+          <div className="p-2 w-10 font-semibold text-gray-200">#</div>
+          <div className="p-2 w-56 font-semibold text-gray-200">name</div>
+        </div>
+
+        <div className="p-2 w-16 font-semibold text-gray-200">wpm</div>
+      </div>
+    </li>
+  );
+}
+
+const fakeData = [
+  {
+    number: 1,
+    username: "rahulYadav",
+    wpm: 89,
+  },
+  {
+    number: 2,
+    username: "rxiTo2_rxi",
+    wpm: 102,
+  },
+  {
+    number: 3,
+    username: "__22ankur",
+    wpm: 66,
+  },
+  {
+    number: 4,
+    username: "anj_ani2",
+    wpm: 77,
+  },
+  {
+    number: 5,
+    username: "AitijhyaModak",
+    wpm: 134,
+  },
+];

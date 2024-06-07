@@ -1,6 +1,12 @@
-export default function TimeSelect({ timeLeft, setTimeLeft, textAreaRef }) {
+export default function TimeSelect({
+  setTime,
+  timeLeft,
+  setTimeLeft,
+  textAreaRef,
+}) {
   function onTimeSelect(amount) {
     setTimeLeft(amount);
+    setTime(amount);
     textAreaRef.current.focus();
     return;
   }

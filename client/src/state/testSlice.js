@@ -20,7 +20,6 @@ const testSlice = createSlice({
     mistakes: 0,
     wordsTyped: 0,
     characters: 0,
-    time: 30,
   },
   reducers: {
     setTest(state) {
@@ -50,8 +49,8 @@ const testSlice = createSlice({
       state.characters++;
     },
     resetState(state) {
-      state.typed = "";
       state.wordsArray = [];
+      state.memoryArrayForRepeat = [];
       state.currentIndexTyping = 0;
       state.correctlyTypedTillIndex = -1;
       state.wrongTypedIndex = -1;
@@ -60,7 +59,6 @@ const testSlice = createSlice({
       state.mistakes = 0;
       state.wordsTyped = 0;
       state.characters = 0;
-      state.memoryArrayForRepeat = [];
     },
     resetStateButNotWords(state) {
       if (state.memoryArrayForRepeat.length > 50)

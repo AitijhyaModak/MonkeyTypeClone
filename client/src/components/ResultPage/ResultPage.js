@@ -1,9 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { resetState, resetStateButNotWords } from "../../state/slice";
+import { resetState, resetStateButNotWords } from "../../state/testSlice";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 import { useRef } from "react";
 
-export default function ResultPage({ setResultPage, setTypePage }) {
+export default function ResultPage({
+  setResultPage,
+  setTypePage,
+  setProfilePage,
+  setForm,
+  setTimeLeft,
+  setTyped,
+  setTestStarted,
+}) {
   const screenshotRef = useRef(null);
   const dispatch = useDispatch();
   const testData = useSelector((state) => state.testReducer);
@@ -26,17 +34,26 @@ export default function ResultPage({ setResultPage, setTypePage }) {
   function startNewTest() {
     dispatch(resetState());
     setResultPage(false);
+    setProfilePage(false);
+    setForm(false);
+    setTimeLeft(30);
     setTypePage(true);
+    setTyped("");
+    setTestStarted(false);
   }
 
   function repeatSameTest() {
     dispatch(resetStateButNotWords());
     setResultPage(false);
+    setProfilePage(false);
+    setForm(false);
+    setTimeLeft(30);
     setTypePage(true);
+    setTyped("");
+    setTestStarted(false);
   }
 
   return (
-    // <div className="min-h-screen bg-slate-800 p-5 ">
     <div>
       <div
         className=" w-[90%] mx-auto mt-20 p-20 flex justify-between items-center bg-slate-800"

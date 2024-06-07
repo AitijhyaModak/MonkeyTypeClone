@@ -9,7 +9,12 @@
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
+    "crypto": "^1.0.1",
+    "crypto-browserify": "^3.12.0",
+    "dotenv-webpack": "^8.1.0",
     "html2canvas": "^1.4.1",
+    "jose": "^5.4.0",
+    "os": "^0.1.2",
     "postcss": "^8.4.38",
     "react": "^18.3.1",
     "react-dom": "^18.2.0",
@@ -20,6 +25,7 @@
     "react-scroll-to-bottom": "^4.2.0",
     "tailwindcss": "^3.4.3",
     "use-react-screenshot": "^4.0.0",
+    "util": "^0.12.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

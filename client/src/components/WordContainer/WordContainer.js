@@ -7,7 +7,11 @@ import {
   setCorrectTypedIndex,
   deleteAndaddWords,
   setTime,
-} from "../../state/slice";
+} from "../../state/testSlice";
+import {
+  updateTestsStartedAPI,
+  updateTestCompletedAPI,
+} from "../../actions/userAPI";
 import { useState, useEffect, useRef } from "react";
 
 function spreadWord(wordsArray, correctIndex, locRef, renderDash) {
@@ -31,10 +35,19 @@ function spreadWord(wordsArray, correctIndex, locRef, renderDash) {
   return arr;
 }
 
-export default function WordContainer({ setResultPage, setTypePage }) {
+export default function WordContainer({
+  setResultPage,
+  setTypePage,
+  setProfilePage,
+  setForm,
+  testStarted,
+  setTestStarted,
+  setTimeLeft,
+  timeLeft,
+  typed,
+  setTyped,
+}) {
   const [renderDash, setRenderDash] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
-  const [testStarted, setTestStarted] = useState(false);
   const [firstDiffOfHeight, setFirstDiffOfHeight] = useState(-1.0);
   const [secondDiffOfHeight, setSecondDiffOfHeight] = useState(-1.0);
   const [flag, setFlag] = useState(true);
@@ -42,7 +55,6 @@ export default function WordContainer({ setResultPage, setTypePage }) {
   const locRef = useRef();
   const textAreaRef = useRef();
   const [isWrong, setIsWrong] = useState(false);
-  const [typed, setTyped] = useState("");
   const activeWord = useSelector((state) => state.testReducer.currentWord);
   const testData = useSelector((state) => state.testReducer);
   const correctIndex = useSelector(
@@ -50,17 +62,37 @@ export default function WordContainer({ setResultPage, setTypePage }) {
   );
   const dispatch = useDispatch();
 
+  const userToken = useSelector((state) => state.userReducer.userData);
+
   useEffect(() => {
     if (!testStarted) return;
     if (timeLeft <= 0) {
-      setResultPage(true);
       setTypePage(false);
+      setProfilePage(false);
+      setForm(false);
+      setResultPage(true);
+      if (userToken) updateTestCompleted();
     }
     const intervalId = setInterval(() => {
       setTimeLeft(timeLeft - 1);
     }, 1000);
     return () => clearInterval(intervalId);
   }, [timeLeft, testStarted]);
+
+  async function updateTestsStarted() {
+    await updateTestsStartedAPI(userToken);
+    return;
+  }
+
+  async function updateTestCompleted() {
+    await updateTestCompletedAPI(
+      userToken,
+      testData.time,
+      testData.wordsTyped,
+      Math.floor((testData.wordsTyped / testData.time) * 60)
+    );
+    return;
+  }
 
   useEffect(() => {
     if (!typed.length) {
@@ -71,7 +103,11 @@ export default function WordContainer({ setResultPage, setTypePage }) {
       dispatch(setTime(timeLeft));
       setFlag(false);
     }
-    setTestStarted(true);
+
+    if (!testStarted) {
+      setTestStarted(true);
+      if (userToken) updateTestsStarted();
+    }
 
     setIsWrong(typed[typed.length - 1] !== activeWord[typed.length - 1]);
 
@@ -139,6 +175,7 @@ export default function WordContainer({ setResultPage, setTypePage }) {
       {!testStarted ? (
         <TimeSelect
           timeLeft={timeLeft}
+          setTime={setTime}
           setTimeLeft={setTimeLeft}
           textAreaRef={textAreaRef}
         ></TimeSelect>
