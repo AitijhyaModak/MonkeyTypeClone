@@ -46,6 +46,7 @@ export default function WordContainer({
   timeLeft,
   typed,
   setTyped,
+  setLeaderboard,
 }) {
   const [renderDash, setRenderDash] = useState(false);
   const [firstDiffOfHeight, setFirstDiffOfHeight] = useState(-1.0);
@@ -70,6 +71,7 @@ export default function WordContainer({
       setTypePage(false);
       setProfilePage(false);
       setForm(false);
+      setLeaderboard(false);
       setResultPage(true);
       if (userToken) updateTestCompleted();
     }

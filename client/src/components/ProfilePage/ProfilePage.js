@@ -11,6 +11,7 @@ export default function ProfilePage({
   setForm,
   setTypePage,
   setResultPage,
+  setLeaderBoard,
 }) {
   const userDataToken = useSelector((state) => state.userReducer.userData);
   const [userData, setUserData] = useState(null);
@@ -29,6 +30,7 @@ export default function ProfilePage({
           setResultPage(false);
           setForm(true);
           setTypePage(false);
+          setLeaderBoard(false);
           dispatch(logout());
         }
       }

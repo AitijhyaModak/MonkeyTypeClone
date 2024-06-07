@@ -11,6 +11,7 @@ export default function ResultPage({
   setTimeLeft,
   setTyped,
   setTestStarted,
+  setLeaderboard,
 }) {
   const screenshotRef = useRef(null);
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ export default function ResultPage({
     dispatch(resetState());
     setResultPage(false);
     setProfilePage(false);
+    setLeaderboard(false);
     setForm(false);
     setTimeLeft(30);
     setTypePage(true);
@@ -47,6 +49,7 @@ export default function ResultPage({
     setResultPage(false);
     setProfilePage(false);
     setForm(false);
+    setLeaderboard(false);
     setTimeLeft(30);
     setTypePage(true);
     setTyped("");

@@ -27,6 +27,19 @@ router.post("/signin", signin);
 router.post("/getuserdata", authMiddleware, getUserData);
 router.post("/updateTestStarted", authMiddleware, updateTestsStarted);
 router.post("/updateTestCompleted", authMiddleware, updateTestCompleted);
+router.post("/leaderboard", getLeaderBoardData);
+
+async function getLeaderBoardData(req, res) {
+  try {
+    const dataArray = await User.find({}, "username wpm -_id")
+      .sort({ wpm: -1 })
+      .limit(10);
+    res.status(200).json({ dataArray: dataArray });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error occured" });
+  }
+}
 
 async function signup(req, res) {
   const { email, password, username } = req.body;

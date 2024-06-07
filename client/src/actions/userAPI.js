@@ -1,4 +1,5 @@
 import axios from "axios";
+import Leaderboard from "../components/Leaderboard/Leaderboard";
 
 const instance = axios.create({ baseURL: "http://localhost:5000/" });
 
@@ -49,6 +50,15 @@ export async function updateTestCompletedAPI(token, time, words, wpm) {
       words: words,
       wpm: wpm,
     });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getLeaderBoardDataAPI() {
+  try {
+    const data = instance.post("user/leaderboard");
     return data;
   } catch (err) {
     console.log(err);

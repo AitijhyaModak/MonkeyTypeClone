@@ -12,6 +12,7 @@ export default function SignInUp({
   setTyped,
   setTestStarted,
   setTimeLeft,
+  setLeaderboard,
 }) {
   return (
     <div className="flex justify-between px-20 pt-12">
@@ -24,6 +25,7 @@ export default function SignInUp({
         setTyped={setTyped}
         setTestStarted={setTestStarted}
         setTimeLeft={setTimeLeft}
+        setLeaderboard={setLeaderboard}
       ></Signin>
     </div>
   );
@@ -39,6 +41,7 @@ function Signin({
   setTimeLeft,
   setTyped,
   setTestStarted,
+  setLeaderboard,
 }) {
   const dispatch = useDispatch();
 
@@ -71,6 +74,7 @@ function Signin({
       setForm(false);
       setResultPage(false);
       setProfilePage(false);
+      setLeaderboard(false);
       setTypePage(true);
 
       dispatch(resetState());

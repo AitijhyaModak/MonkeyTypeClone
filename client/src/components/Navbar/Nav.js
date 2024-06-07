@@ -16,6 +16,7 @@ export default function Nav({
   setTestStarted,
   setTimeLeft,
   setTyped,
+  setLeaderboard,
 }) {
   const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.userReducer.isSignedIn);
@@ -31,11 +32,21 @@ export default function Nav({
     setTypePage(false);
     setResultPage(false);
     setProfilePage(false);
+    setLeaderboard(false);
     setForm(true);
+  }
+
+  function onLeaderboardClick() {
+    setTypePage(false);
+    setResultPage(false);
+    setProfilePage(false);
+    setLeaderboard(true);
+    setForm(false);
   }
 
   function onKeyboardClick() {
     setResultPage(false);
+    setLeaderboard(false);
     setProfilePage(false);
     setForm(false);
     dispatch(resetState());
@@ -50,6 +61,7 @@ export default function Nav({
     setTypePage(false);
     setResultPage(false);
     setForm(false);
+    setLeaderboard(false);
     setProfilePage(true);
   }
 
@@ -57,6 +69,7 @@ export default function Nav({
     dispatch(logout());
     setTypePage(true);
     setResultPage(false);
+    setLeaderboard(false);
     setForm(false);
     setProfilePage(false);
     return;
@@ -75,6 +88,7 @@ export default function Nav({
           onClick={onKeyboardClick}
         ></FaKeyboard>
         <MdLeaderboard
+          onClick={onLeaderboardClick}
           size={25}
           color="white"
           className="hover:fill-green-400 cursor-pointer transition-all ease-linear mt-3"

@@ -1,13 +1,31 @@
+import { useEffect, useState } from "react";
+import { getLeaderBoardDataAPI } from "../../actions/userAPI";
+
 export default function Leaderboard() {
+  const [leaderData, setLeaderData] = useState(null);
+
+  useEffect(() => {
+    async function getLeaderBoardData() {
+      const data = await getLeaderBoardDataAPI();
+      console.log(data.data.dataArray);
+      setLeaderData(data.data.dataArray);
+    }
+    getLeaderBoardData();
+  }, []);
+  let index = 1;
   return (
-    <div className=" w-[90%] mx-auto mt-5 h-fit">
+    <div className=" w-[85%] mx-auto mt-5 h-fit ">
       <h1 className="text-4xl  text-teal-400">All Time Top-10 Leaderboard</h1>
-      <div className="mt-5">
+      <div className="mt-5 border-2 max-h-[500px] overflow-y-scroll outline-none">
         <ul className=" ">
           <Heading></Heading>
-          {fakeData.map((item) => (
-            <LeaderList data={item}></LeaderList>
-          ))}
+          {leaderData &&
+            leaderData.map((item) => (
+              <LeaderList
+                data={{ ...item, number: index }}
+                key={index++}
+              ></LeaderList>
+            ))}
         </ul>
       </div>
     </div>
