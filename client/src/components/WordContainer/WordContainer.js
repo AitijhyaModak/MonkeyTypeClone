@@ -13,6 +13,21 @@ import {
   updateTestCompletedAPI,
 } from "../../actions/userAPI";
 import { useState, useEffect, useRef } from "react";
+import { Reveal } from "react-awesome-reveal";
+import { keyframes } from "@emotion/react";
+
+const customAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform-origin: translateY(0);
+  }
+}
+`;
 
 function spreadWord(wordsArray, correctIndex, locRef, renderDash) {
   let arr = [];
@@ -47,6 +62,8 @@ export default function WordContainer({
   typed,
   setTyped,
   setLeaderboard,
+  isWrong,
+  setIsWrong,
 }) {
   const [renderDash, setRenderDash] = useState(false);
   const [firstDiffOfHeight, setFirstDiffOfHeight] = useState(-1.0);
@@ -55,7 +72,6 @@ export default function WordContainer({
   const wordContainerRef = useRef();
   const locRef = useRef();
   const textAreaRef = useRef();
-  const [isWrong, setIsWrong] = useState(false);
   const activeWord = useSelector((state) => state.testReducer.currentWord);
   const testData = useSelector((state) => state.testReducer);
   const correctIndex = useSelector(
@@ -173,42 +189,44 @@ export default function WordContainer({
   }
 
   return (
-    <div className=" w-[73%] mx-auto mt-24 h-fit">
-      {!testStarted ? (
-        <TimeSelect
-          timeLeft={timeLeft}
-          setTime={setTime}
-          setTimeLeft={setTimeLeft}
-          textAreaRef={textAreaRef}
-        ></TimeSelect>
-      ) : (
-        <div className="h-[4.48rem]"></div>
-      )}
+    <Reveal duration={1000} keyframes={customAnimation}>
+      <div className=" w-[73%] mx-auto mt-24 h-fit">
+        {!testStarted ? (
+          <TimeSelect
+            timeLeft={timeLeft}
+            setTime={setTime}
+            setTimeLeft={setTimeLeft}
+            textAreaRef={textAreaRef}
+          ></TimeSelect>
+        ) : (
+          <div className="h-[4.48rem]"></div>
+        )}
 
-      <span className="text-yellow-400 text-3xl ">{timeLeft}</span>
-      <div
-        className="flex  text-white text-2xl h-[8rem] mt-2"
-        onClick={makeTextAreaActive}
-      >
-        <textarea
-          className="h-[0px] w-0 peer"
-          value={typed}
-          onChange={onTextAreaChange}
-          autoFocus
-          ref={textAreaRef}
-        ></textarea>
+        <span className="text-yellow-400 text-3xl ">{timeLeft}</span>
         <div
-          className="flex gap-3 justify-between flex-wrap overflow-hidden h-[8rem] peer-[:not(:focus)]:opacity-15 transition-all ease-linear"
-          ref={wordContainerRef}
+          className="flex  text-white text-2xl h-[8rem] mt-2"
+          onClick={makeTextAreaActive}
         >
-          {spreadWord(
-            testData.wordsArray,
-            correctIndex,
-            locRef,
-            renderDash
-          ).map((item) => item)}
+          <textarea
+            className="h-[0px] w-0 peer"
+            value={typed}
+            onChange={onTextAreaChange}
+            autoFocus
+            ref={textAreaRef}
+          ></textarea>
+          <div
+            className="flex gap-3 justify-between flex-wrap overflow-hidden h-[8rem] peer-[:not(:focus)]:opacity-15 transition-all ease-linear"
+            ref={wordContainerRef}
+          >
+            {spreadWord(
+              testData.wordsArray,
+              correctIndex,
+              locRef,
+              renderDash
+            ).map((item) => item)}
+          </div>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }

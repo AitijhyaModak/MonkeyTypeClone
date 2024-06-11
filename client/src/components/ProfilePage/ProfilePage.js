@@ -5,32 +5,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserDataAPI } from "../../actions/userAPI";
 import { logout } from "../../state/userSlice";
+import { keyframes } from "@emotion/react";
+import Reveal from "react-awesome-reveal";
+
+const Animation = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform-origin: translateY(0);
+  }
+}
+`;
 
 export default function ProfilePage({
   setProfilePage,
   setForm,
   setTypePage,
   setResultPage,
-  setLeaderBoard,
+  setLeaderboard,
 }) {
   const userDataToken = useSelector((state) => state.userReducer.userData);
   const [userData, setUserData] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("h");
     async function getData() {
       if (userDataToken) {
-        const returnVal = await getUserDataAPI(userDataToken);
+        const res = await getUserDataAPI(userDataToken);
 
-        if (returnVal && returnVal.status === 200)
-          setUserData(returnVal.data.userData);
+        if (res.status === 200) setUserData(res.data.userData);
         else {
+          console.log("sd");
           setProfilePage(false);
           setResultPage(false);
           setForm(true);
           setTypePage(false);
-          setLeaderBoard(false);
+          setLeaderboard(false);
           dispatch(logout());
         }
       }
@@ -40,10 +54,12 @@ export default function ProfilePage({
   }, [userDataToken]);
 
   return (
-    <div className=" p-5">
-      <ProfileCard data={userData}></ProfileCard>
-      <WPMcard data={userData}></WPMcard>
-      <UserWPM data={userData}></UserWPM>
-    </div>
+    <Reveal keyframes={Animation} duration={1500}>
+      <div className=" p-5">
+        <ProfileCard data={userData}></ProfileCard>
+        <WPMcard data={userData}></WPMcard>
+        <UserWPM data={userData}></UserWPM>
+      </div>
+    </Reveal>
   );
 }
