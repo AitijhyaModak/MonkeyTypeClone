@@ -3,6 +3,17 @@ import { signupAPI, signinAPI } from "../../actions/userAPI";
 import { useDispatch } from "react-redux";
 import { login } from "../../state/userSlice";
 import { resetState, setTest } from "../../state/testSlice";
+import { keyframes } from "@emotion/react";
+import Reveal from "react-awesome-reveal";
+
+const Animation = keyframes`
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+`;
 
 export default function SignInUp({
   setForm,
@@ -13,21 +24,25 @@ export default function SignInUp({
   setTestStarted,
   setTimeLeft,
   setLeaderboard,
+  setIsWrong,
 }) {
   return (
-    <div className="flex justify-between px-20 pt-12">
-      <Signup></Signup>
-      <Signin
-        setResultPage={setResultPage}
-        setForm={setForm}
-        setProfilePage={setProfilePage}
-        setTypePage={setTypePage}
-        setTyped={setTyped}
-        setTestStarted={setTestStarted}
-        setTimeLeft={setTimeLeft}
-        setLeaderboard={setLeaderboard}
-      ></Signin>
-    </div>
+    <Reveal keyframes={Animation} duration={1500}>
+      <div className="sm:flex-col sm:items-center sm:gap-10 flex justify-between px-20 pt-12">
+        <Signup></Signup>
+        <Signin
+          setResultPage={setResultPage}
+          setForm={setForm}
+          setProfilePage={setProfilePage}
+          setTypePage={setTypePage}
+          setTyped={setTyped}
+          setIsWrong={setIsWrong}
+          setTestStarted={setTestStarted}
+          setTimeLeft={setTimeLeft}
+          setLeaderboard={setLeaderboard}
+        ></Signin>
+      </div>
+    </Reveal>
   );
 }
 
@@ -39,6 +54,7 @@ function Signin({
   setProfilePage,
   setTypePage,
   setTimeLeft,
+  setIsWrong,
   setTyped,
   setTestStarted,
   setLeaderboard,
@@ -64,12 +80,11 @@ function Signin({
 
     setError("");
 
-    const returnData = await signinAPI({ email: email, password: password });
+    const res = await signinAPI({ email: email, password: password });
 
-    if (returnData.data.message) setError(returnData.data.message);
-
-    if (returnData.data.data) {
-      dispatch(login(returnData.data.data));
+    if (res.status !== 200) setError(res.data.message);
+    else {
+      dispatch(login(res.data.data));
 
       setForm(false);
       setResultPage(false);
@@ -80,6 +95,7 @@ function Signin({
       dispatch(resetState());
       dispatch(setTest());
       setTyped("");
+      setIsWrong(false);
       setTestStarted(false);
       setTimeLeft(30);
     }
@@ -130,10 +146,11 @@ function Signup() {
   const [verifyEmail, setVerifyEmail] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   async function onSignUpClick(e) {
     e.preventDefault();
-
+    setSuccess("");
     if (username < 4) {
       setError("Username must be atleast 4 characters");
       return;
@@ -160,14 +177,15 @@ function Signup() {
     }
 
     setError("");
-    const data = await signupAPI({
+    const res = await signupAPI({
       username: username,
       password: password,
       email: email,
     });
-
-    if (data.data) setError(data.data);
+    console.log(res);
+    if (res.status !== 200) setError(res.data.message);
     else {
+      setSuccess("Account created succesfully");
       setEmail("");
       setPassword("");
       setVerifyEmail("");
@@ -178,7 +196,7 @@ function Signup() {
   }
 
   return (
-    <div className="max-w-[25%]">
+    <div className="w-fit">
       <form className="w-fit">
         <p className="mb-2 pl-1 text-lg text-green-300">register</p>
         <div className="flex flex-col w-fit gap-5 ">
@@ -221,6 +239,7 @@ function Signup() {
             placeholder="verify password"
             className="p-2 rounded-lg pl-3 w-60 bg-gray-900 outline-none focus:border-2 focus:border-green-300 caret-blue-400 text-green-300"
           />
+          {success && <p className="text-green-400 font-semibold">{success}</p>}
           {error && <p className="text-red-400 font-semibold">{error}</p>}
           <button
             onClick={onSignUpClick}

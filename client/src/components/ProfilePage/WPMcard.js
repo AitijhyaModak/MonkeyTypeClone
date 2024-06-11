@@ -1,6 +1,6 @@
 export default function WPMcard({ data }) {
   return (
-    <div className="rounded-3xl w-fit flex mt-10 gap-16 px-10 py-4 bg-[rgb(17,25,43)] items-center mx-auto">
+    <div className="rounded-3xl sm:gap-y-7 sm:justify-center flex-wrap w-fit flex mt-10 gap-16 px-10 py-4 bg-[rgb(17,25,43)] items-center mx-auto">
       <WPM data={data} number={15}></WPM>
       <WPM data={data} number={30}></WPM>
       <WPM data={data} number={60}></WPM>

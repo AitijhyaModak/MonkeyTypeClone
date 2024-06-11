@@ -19,6 +19,7 @@ export default function App() {
   const [form, setForm] = useState(false);
   const [typed, setTyped] = useState("");
   const [leaderboard, setLeaderboard] = useState(false);
+  const [isWrong, setIsWrong] = useState(false);
 
   useEffect(() => {
     dispatch(setTest());
@@ -48,6 +49,7 @@ export default function App() {
         setTestStarted={setTestStarted}
         setTimeLeft={setTimeLeft}
         setTyped={setTyped}
+        setIsWrong={setIsWrong}
         setLeaderboard={setLeaderboard}
       ></Nav>
       {typePage && (
@@ -61,6 +63,8 @@ export default function App() {
           timeLeft={timeLeft}
           setTimeLeft={setTimeLeft}
           typed={typed}
+          setIsWrong={setIsWrong}
+          isWrong={isWrong}
           setTyped={setTyped}
           setLeaderboard={setLeaderboard}
         ></WordContainer>
@@ -73,7 +77,9 @@ export default function App() {
           setForm={setForm}
           setTimeLeft={setTimeLeft}
           setTyped={setTyped}
+          setIsWrong={setIsWrong}
           setTestStarted={setTestStarted}
+          setLeaderboard={setLeaderboard}
         ></ResultPage>
       )}
       {profilePage && (
@@ -92,6 +98,7 @@ export default function App() {
           setProfilePage={setProfilePage}
           setTypePage={setTypePage}
           setTyped={setTyped}
+          setIsWrong={setIsWrong}
           setTestStarted={setTestStarted}
           setTimeLeft={setTimeLeft}
           setLeaderboard={setLeaderboard}

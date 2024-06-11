@@ -1,15 +1,19 @@
 import express from "express";
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import jwt, { decode } from "jsonwebtoken";
-
+import jwt from "jsonwebtoken";
+//sigup in done
+//sign in done
+//get user data done
 const saltRounds = 10;
 
 const router = express.Router();
 
 async function authMiddleware(req, res, next) {
   const token = req.body.token;
+
   if (!token) res.status(400).json({ message: "unauthorized" });
+
   try {
     const decoded = jwt.verify(token, "secret");
     if (decoded) {
@@ -53,11 +57,10 @@ async function signup(req, res) {
       await User.create({ email: email, password: hash, username: username });
     });
 
-    res.status(200).send("");
-
-    return;
+    res.status(200).json({ message: "success" });
   } catch (err) {
-    res.status(201).send(err.message);
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 }
 
@@ -66,20 +69,25 @@ async function signin(req, res) {
 
   try {
     const data = await User.findOne({ email: email });
-    if (!data) res.json({ message: "User does not exists" });
+
+    if (!data) throw new Error("User does not exists");
+
     const jwtData = jwt.sign(
       {
         data: data,
       },
       "secret"
     );
-    bcrypt.compare(password, data.password, function (err, result) {
-      if (result) {
-        res.json({ data: jwtData });
-      } else res.json({ message: "Wrong Password" });
-    });
+
+    const result = await bcrypt.compare(password, data.password);
+
+    if (result) res.status(200).json({ data: jwtData });
+    else throw new Error("Incorrect password");
+
+    //
   } catch (err) {
     console.log(err);
+    res.status(404).json({ message: err.message });
   }
 }
 
@@ -90,7 +98,8 @@ async function getUserData(req, res) {
     const userRecord = await User.findOne({ email: decoded.data.email });
     res.status(200).json({ userData: userRecord });
   } catch (err) {
-    res.status(500);
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -103,10 +112,10 @@ async function updateTestsStarted(req, res) {
       { email: userData.email },
       { testsStarted: userData.testsStarted + 1 }
     );
-    res.status(200);
+    res.status(200).json({ message: "success" });
   } catch (err) {
     console.log(err);
-    res.status(500);
+    res.status(500).json({ message: "failure" });
   }
 }
 
@@ -140,10 +149,10 @@ async function updateTestCompleted(req, res) {
       }
     );
 
-    res.status(200);
+    res.status(200).json({ message: "success" });
   } catch (err) {
     console.log(err);
-    res.status(500);
+    res.status(500).json({ message: "failure" });
   }
 }
 
