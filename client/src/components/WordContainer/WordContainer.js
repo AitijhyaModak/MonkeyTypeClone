@@ -176,13 +176,13 @@ export default function WordContainer({
   });
 
   function onTextAreaChange(e) {
-    console.log(typed);
     if (isWrong && e.target.value.length < typed.length) {
       setTyped(e.target.value);
       setIsWrong(false);
       dispatch(setWrongIndex(-1));
     } else if (isWrong) setTyped(typed);
     else setTyped(e.target.value);
+    console.log(typed);
   }
 
   function makeTextAreaActive() {
