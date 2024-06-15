@@ -69,11 +69,17 @@ export default function Nav({
 
   function onLogoutClick() {
     dispatch(logout());
-    setTypePage(true);
     setResultPage(false);
-    setLeaderboard(false);
-    setForm(false);
     setProfilePage(false);
+    setForm(false);
+    setLeaderboard(false);
+    dispatch(resetState());
+    dispatch(setTest());
+    setTyped("");
+    setTestStarted(false);
+    setIsWrong(false);
+    setTypePage(true);
+    setTimeLeft(30);
     return;
   }
 
