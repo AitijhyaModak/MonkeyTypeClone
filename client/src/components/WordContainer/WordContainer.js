@@ -176,6 +176,7 @@ export default function WordContainer({
   });
 
   function onTextAreaChange(e) {
+    console.log(typed);
     if (isWrong && e.target.value.length < typed.length) {
       setTyped(e.target.value);
       setIsWrong(false);
