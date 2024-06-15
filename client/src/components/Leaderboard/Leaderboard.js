@@ -47,7 +47,7 @@ export default function Leaderboard() {
                 {leaderboardError}
               </h1>
             )}
-            {isLoading && <Loader></Loader>}
+            {isLoading && <Loader marginData="2rem"></Loader>}
 
             {leaderData &&
               leaderData.map((item) => (

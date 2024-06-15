@@ -21,9 +21,9 @@ export default function ProfileCard({ data }) {
           </p>
         </div>
         <div className="">
-          <p className="text-white text-xl">time typing</p>
+          <p className="text-white text-xl">time typed</p>
           <p className="text-3xl text-green-300 sm:text-center">
-            {data && data.timeTyping}
+            {data && data.timeTyping} s
           </p>
         </div>
       </div>
