@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getLeaderBoardDataAPI } from "../../actions/userAPI";
 import { keyframes } from "@emotion/react";
 import Reveal from "react-awesome-reveal";
+import Loader from "../Loader/Loader";
 
 const HeadingAnimation = keyframes`
   from {
@@ -15,12 +16,14 @@ const HeadingAnimation = keyframes`
 export default function Leaderboard() {
   const [leaderData, setLeaderData] = useState(null);
   const [leaderboardError, setLeaderboardError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getLeaderBoardData() {
       setLeaderboardError("");
       const res = await getLeaderBoardDataAPI();
 
+      setIsLoading(false);
       if (res.status === 200) setLeaderData(res.data.dataArray);
       else setLeaderboardError("Error while fetching leaderboard data");
     }
@@ -44,6 +47,8 @@ export default function Leaderboard() {
                 {leaderboardError}
               </h1>
             )}
+            {isLoading && <Loader></Loader>}
+
             {leaderData &&
               leaderData.map((item) => (
                 <LeaderList

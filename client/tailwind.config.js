@@ -17,6 +17,7 @@ module.exports = {
       screens: {
         sma: "701px",
         lga: "1024px",
+        mda: "768px",
       },
     },
   },

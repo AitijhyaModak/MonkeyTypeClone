@@ -86,21 +86,21 @@ export default function Nav({
         <FaKeyboard
           size={25}
           color="white"
-          className="md:hover:fill-white hover:fill-green-400 cursor-pointer transition-all ease-linear mt-3"
+          className="mda:hover:fill-green-400 cursor-pointer transition-all ease-linear mt-3"
           onClick={onKeyboardClick}
         ></FaKeyboard>
         <MdLeaderboard
           onClick={onLeaderboardClick}
           size={25}
           color="white"
-          className="md:hover:fill-white hover:fill-green-400 cursor-pointer transition-all ease-linear mt-3"
+          className="mda:hover:fill-green-400 cursor-pointer transition-all ease-linear mt-3"
         ></MdLeaderboard>
       </div>
 
       <div className="flex items-center gap-10 mt-3">
         {!isSignedIn && (
           <span
-            className="text-xl text-white md:hover:text-green-400 cursor-pointer transition-all ease-linear"
+            className="text-xl text-white mda:hover:text-green-400 cursor-pointer transition-all ease-linear"
             onClick={onProfileClick}
           >
             Guest
@@ -109,7 +109,7 @@ export default function Nav({
         {isSignedIn && (
           <span
             onClick={onUsernameClick}
-            className="underline cursor-pointer text-yellow-400 text-xl md:hover:text-yellow-600 transition-all ease-linear"
+            className="underline cursor-pointer text-yellow-400 text-xl mda:hover:text-yellow-600 transition-all ease-linear"
           >
             {jose.decodeJwt(userData).data.username}
           </span>
@@ -119,7 +119,7 @@ export default function Nav({
             size={25}
             onClick={onLogoutClick}
             color="white"
-            className="md:hover:fill-green-400 cursor-pointer transition-all ease-linear"
+            className="mda:hover:fill-green-400 cursor-pointer transition-all ease-linear"
           ></IoIosLogOut>
         )}
       </div>
