@@ -142,7 +142,7 @@ export default function ResultPage({
 
           <div className="lg:hidden flex flex-col items-center gap-6">
             <span
-              className="lg:text-md text-white hover:text-green-300 text-3xl cursor-pointer mt-[-3px] transition-all ease-linear peer"
+              className="lg:text-md text-white mda:hover:text-green-300 text-3xl cursor-pointer mt-[-3px] transition-all ease-linear peer"
               onClick={repeatSameTest}
             >
               ⟳
@@ -154,7 +154,7 @@ export default function ResultPage({
 
           <div className="lg:hidden flex flex-col items-center gap-6">
             <span
-              className="lg:text-sm text-white hover:text-green-300 text-2xl cursor-pointer ease-linear transition-all peer"
+              className="lg:text-sm text-white mda:hover:text-green-300 text-2xl cursor-pointer ease-linear transition-all peer"
               onClick={takeSSandDownload}
             >
               ⌧
@@ -167,7 +167,7 @@ export default function ResultPage({
 
         <div className="lga:hidden lg:mt-6 lg:mx-auto w-fit">
           <span
-            className="lg:text-2xl lg:mx-auto text-white hover:text-green-300 text-2xl cursor-pointer ease-linear transition-all peer"
+            className="lg:text-2xl lg:mx-auto text-white mda:hover:text-green-300 text-2xl cursor-pointer ease-linear transition-all peer"
             onClick={takeSSandDownload}
           >
             ⌧

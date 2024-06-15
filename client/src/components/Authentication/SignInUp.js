@@ -128,6 +128,7 @@ function Signin({
           />
 
           {error && <p className="text-red-400 font-semibold">{error}</p>}
+          {isLoading && <Loader marginData="0rem"></Loader>}
 
           <button
             onClick={onSignInClick}
@@ -135,7 +136,6 @@ function Signin({
           >
             Sign In
           </button>
-          {isLoading && <Loader marginData="1rem"></Loader>}
         </div>
       </form>
     </div>
@@ -246,13 +246,14 @@ function Signup() {
           />
           {success && <p className="text-green-400 font-semibold">{success}</p>}
           {error && <p className="text-red-400 font-semibold">{error}</p>}
+          {isLoading && <Loader marginData="1rem"></Loader>}
+
           <button
             onClick={onSignUpClick}
             className="mda:hover:border-2 w-60 mda:hover:border-green-300 h-10 rounded-full bg-gray-900 text-green-300 "
           >
             Sign Up
           </button>
-          {isLoading && <Loader marginData="1rem"></Loader>}
         </div>
       </form>
     </div>
