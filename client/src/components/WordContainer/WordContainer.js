@@ -182,7 +182,6 @@ export default function WordContainer({
       dispatch(setWrongIndex(-1));
     } else if (isWrong) setTyped(typed);
     else setTyped(e.target.value);
-    console.log(typed);
   }
 
   function makeTextAreaActive() {
@@ -209,11 +208,13 @@ export default function WordContainer({
           onClick={makeTextAreaActive}
         >
           <textarea
-            className="h-[0px] w-0 peer"
+            className="h-[0px] w-0 md:w-1 md:h-1 peer"
             value={typed}
             onChange={onTextAreaChange}
             autoFocus
             ref={textAreaRef}
+            autoCapitalize="none"
+            autoCorrect="off"
           ></textarea>
           <div
             className="flex gap-3 justify-between flex-wrap overflow-hidden h-[8rem] peer-[:not(:focus)]:opacity-15 transition-all ease-linear"
