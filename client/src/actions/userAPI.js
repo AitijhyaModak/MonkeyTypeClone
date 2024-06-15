@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const instance = axios.create({ baseURL: "http://localhost:5000/" });
+const instance = axios.create({
+  baseURL: "https://amtype-backend.netlify.app/.netlify/functions/api",
+});
 
 export async function signupAPI(formData) {
   try {

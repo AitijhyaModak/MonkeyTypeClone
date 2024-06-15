@@ -7,6 +7,7 @@ import { getUserDataAPI } from "../../actions/userAPI";
 import { logout } from "../../state/userSlice";
 import { keyframes } from "@emotion/react";
 import Reveal from "react-awesome-reveal";
+import Loader from "../Loader/Loader";
 
 const Animation = keyframes`
   from {
@@ -31,12 +32,13 @@ export default function ProfilePage({
   const userDataToken = useSelector((state) => state.userReducer.userData);
   const [userData, setUserData] = useState(null);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoadig] = useState(true);
 
   useEffect(() => {
     async function getData() {
       if (userDataToken) {
         const res = await getUserDataAPI(userDataToken);
-
+        setIsLoadig(false);
         if (res.status === 200) setUserData(res.data.userData);
         else {
           console.log("sd");
@@ -54,12 +56,15 @@ export default function ProfilePage({
   }, [userDataToken]);
 
   return (
-    <Reveal keyframes={Animation} duration={1500}>
-      <div className=" p-5">
-        <ProfileCard data={userData}></ProfileCard>
-        <WPMcard data={userData}></WPMcard>
-        <UserWPM data={userData}></UserWPM>
-      </div>
-    </Reveal>
+    <>
+      {isLoading && <Loader></Loader>}
+      <Reveal keyframes={Animation} duration={1500}>
+        <div className=" p-5">
+          <ProfileCard data={userData}></ProfileCard>
+          <WPMcard data={userData}></WPMcard>
+          <UserWPM data={userData}></UserWPM>
+        </div>
+      </Reveal>
+    </>
   );
 }

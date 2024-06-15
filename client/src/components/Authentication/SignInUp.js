@@ -5,6 +5,7 @@ import { login } from "../../state/userSlice";
 import { resetState, setTest } from "../../state/testSlice";
 import { keyframes } from "@emotion/react";
 import Reveal from "react-awesome-reveal";
+import Loader from "../Loader/Loader";
 
 const Animation = keyframes`
   from {
@@ -64,6 +65,7 @@ function Signin({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSignInClick(e) {
     e.preventDefault();
@@ -79,9 +81,9 @@ function Signin({
     }
 
     setError("");
-
+    setIsLoading(true);
     const res = await signinAPI({ email: email, password: password });
-
+    setIsLoading(false);
     if (res.status !== 200) setError(res.data.message);
     else {
       dispatch(login(res.data.data));
@@ -107,7 +109,7 @@ function Signin({
     <div>
       <form className="max-w-[25%]">
         <p className="mb-2 pl-1 text-lg text-green-300">login</p>
-        <div className="flex flex-col w-fit gap-5 ">
+        <div className="flex flex-col w-fit gap-5 items-center">
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -122,17 +124,18 @@ function Signin({
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             placeholder="password"
-            className="p-2 rounded-lg pl-3 bg-gray-900 outline-none focus:border-2 focus:border-green-300 caret-blue-400 text-green-300"
+            className="p-2 rounded-lg pl-3 w-60 bg-gray-900 outline-none focus:border-2 focus:border-green-300 caret-blue-400 text-green-300"
           />
 
           {error && <p className="text-red-400 font-semibold">{error}</p>}
 
           <button
             onClick={onSignInClick}
-            className="hover:border-2 hover:border-green-300 h-10 rounded-full bg-gray-900 text-green-300 "
+            className="w-60 mda:hover:border-2 mda:hover:border-green-300 h-10 rounded-full bg-gray-900 text-green-300 "
           >
             Sign In
           </button>
+          {isLoading && <Loader></Loader>}
         </div>
       </form>
     </div>
@@ -147,6 +150,7 @@ function Signup() {
   const [verifyPassword, setVerifyPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSignUpClick(e) {
     e.preventDefault();
@@ -177,12 +181,13 @@ function Signup() {
     }
 
     setError("");
+    setIsLoading(true);
     const res = await signupAPI({
       username: username,
       password: password,
       email: email,
     });
-    console.log(res);
+    setIsLoading(false);
     if (res.status !== 200) setError(res.data.message);
     else {
       setSuccess("Account created succesfully");
@@ -243,10 +248,11 @@ function Signup() {
           {error && <p className="text-red-400 font-semibold">{error}</p>}
           <button
             onClick={onSignUpClick}
-            className="hover:border-2 w-60 hover:border-green-300 h-10 rounded-full bg-gray-900 text-green-300 "
+            className="mda:hover:border-2 w-60 mda:hover:border-green-300 h-10 rounded-full bg-gray-900 text-green-300 "
           >
             Sign Up
           </button>
+          {isLoading && <Loader></Loader>}
         </div>
       </form>
     </div>
