@@ -57,7 +57,7 @@ export default function ProfilePage({
 
   return (
     <>
-      {isLoading && <Loader></Loader>}
+      {isLoading && <Loader marginData="4rem"></Loader>}
       <Reveal keyframes={Animation} duration={1500}>
         <div className=" p-5">
           <ProfileCard data={userData}></ProfileCard>

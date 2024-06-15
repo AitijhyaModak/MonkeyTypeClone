@@ -68,6 +68,7 @@ export default function Nav({
   }
 
   function onLogoutClick() {
+    console.log("X");
     dispatch(logout());
     setTypePage(true);
     setResultPage(false);

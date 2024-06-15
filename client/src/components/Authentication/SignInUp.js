@@ -135,7 +135,7 @@ function Signin({
           >
             Sign In
           </button>
-          {isLoading && <Loader></Loader>}
+          {isLoading && <Loader marginData="1rem"></Loader>}
         </div>
       </form>
     </div>
@@ -252,7 +252,7 @@ function Signup() {
           >
             Sign Up
           </button>
-          {isLoading && <Loader></Loader>}
+          {isLoading && <Loader marginData="1rem"></Loader>}
         </div>
       </form>
     </div>
