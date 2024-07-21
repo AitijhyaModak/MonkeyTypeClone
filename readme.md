@@ -21,6 +21,6 @@ Live Preview: https://amtype-monkeytypeclone.netlify.app
 
 **Server:** Node, Express, MongoDB
 
-# App Demo Video
+## App Demo Video
 https://github.com/user-attachments/assets/f0564049-e705-462b-bc40-90901bdc9e97
 
