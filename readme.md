@@ -28,3 +28,8 @@ Live Preview: https://amtype-monkeytypeclone.netlify.app
 ![App Screenshot](./screenshots/pic2.png)
 
 ![App Screenshot](./screenshots/pic3.png)
+
+# App Demo Video
+
+https://github.com/user-attachments/assets/f0564049-e705-462b-bc40-90901bdc9e97
+
