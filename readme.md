@@ -17,7 +17,7 @@ Live Preview: https://amtype-monkeytypeclone.netlify.app
 
 ## Tech Stack
 
-**Client:** React, TailwindCSS, React-Awesome-Reveal
+**Client:** React, Redux, TailwindCSS, React-Awesome-Reveal
 
 **Server:** Node, Express, MongoDB
 
